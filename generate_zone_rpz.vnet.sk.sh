@@ -12,7 +12,7 @@ REDIRECT_DST="rpz.vnet.sk."
 #stiahnutie dokuemntu
 #cd /tmp
 
-/usr/bin/wget -t 1 -nd -r -l 1 -q -A "*_zakaz_web.pdf" https://www.financnasprava.sk/sk/infoservis/priklady-hazardne-hry
+/usr/bin/wget -t 1 -nd -r -l 1 -q --ignore-case -A "*_zakaz_web.pdf" https://www.financnasprava.sk/sk/infoservis/priklady-hazardne-hry
 
 if [ $? -gt 0 ];then
 
@@ -21,9 +21,9 @@ if [ $? -gt 0 ];then
 
 fi
 
-SOURCESUM=`/usr/bin/sha256sum *_zakaz_web.pdf`
+SOURCESUM=`/usr/bin/sha256sum *.pdf`
 
-mv *_zakaz_web.pdf dat.pdf
+mv *.pdf dat.pdf
 
 #sparsovanie zoznamu domen
 if [ -e dat.pdf ];then
