@@ -12,7 +12,7 @@ REDIRECT_DST="rpz.vnet.sk."
 #stiahnutie dokuemntu
 #cd /tmp
 
-/usr/bin/wget -t 1 -nd -r -l 1 -q --ignore-case -A "*_zakaz_web.pdf" https://www.financnasprava.sk/sk/infoservis/priklady-hazardne-hry
+/usr/bin/wget -t 1 -nd -r -l 1 -q --ignore-case -A "*_zak*_web.pdf" https://www.financnasprava.sk/sk/infoservis/priklady-hazardne-hry
 
 if [ $? -gt 0 ];then
 
@@ -52,8 +52,10 @@ IFS='
 
 	for domena in " ${domeny[@]}";do
 		domena=`echo ${domena} |sed 's/www.//g;s/^[ \t]*//;s/ *$//'`
-		echo "${domena}	IN	CNAME	${REDIRECT_DST}" >> $FILE
-		echo "*.${domena}	IN	CNAME	${REDIRECT_DST}" >> $FILE
+		if [ ${#domena} -gt 2 ];then
+			echo "${domena}	IN	CNAME	${REDIRECT_DST}" >> $FILE
+			echo "*.${domena}	IN	CNAME	${REDIRECT_DST}" >> $FILE
+		fi
 	done
 
 	#odstranime docasne data
