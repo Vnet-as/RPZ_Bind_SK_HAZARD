@@ -34,7 +34,8 @@ IFS='
 	poloha_zvrchu=`pdftohtml dat.pdf -stdout -xml | grep 'zakázanú ponuku' | cut -d\" -f2 | tail -1`
 	pozicie_stlpca=(`pdftohtml dat.pdf -stdout -xml | grep 'zakázanú ponuku' | cut -d\" -f4`)
 
-	domeny=(`pdftohtml dat.pdf -stdout -xml | awk -v padding="${poloha_zvrchu}" -v lava1="${pozicie_stlpca[0]}" -v lava2="${pozicie_stlpca[1]}" 'BEGIN { FS = "\"" } {if( $1=="<page number=" && $2>1)padding=0; if ( $4>lava1 && $4<lava2 && $2>padding ) print $11}' | awk -F'[/<>]' '{if (NF==7) print $4; else print $2}'`)
+	domeny=(`pdftohtml dat.pdf -stdout -xml | awk -v padding="${poloha_zvrchu}" -v lava1="${pozicie_stlpca[0]}" -v lava2="${pozicie_stlpca[1]}" 'BEGIN { FS = "\"" } {if( $1=="<page number=" && $2>1)padding=0; if ( $4>lava1 && $4<lava2 && $2>padding ) print $11; else if ( $6>400 && $2>padding) print $13;}' | awk -F'[/<>]' '{if (NF==7) print $4; else if (NF==10) print $4; else print $2}'`)
+
 
 	echo "\$TTL	3600" > $FILE
 	echo "@	IN	SOA	ns.vnet.sk. sysadmin.vnet.sk. (" >> $FILE
