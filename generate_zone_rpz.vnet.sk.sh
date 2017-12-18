@@ -9,10 +9,9 @@ DIR_PROD="/srv/salt/files/bind/"
 FILE_PROD="rpz.vnet.sk.conf"
 REDIRECT_DST="rpz.vnet.sk."
 
-#stiahnutie dokuemntu
-#cd /tmp
+#stiahnutie dokumentu
 
-/usr/bin/wget -t 1 -nd -r -l 1 -q --ignore-case -A "*_zak*_web.pdf" https://www.financnasprava.sk/sk/infoservis/priklady-hazardne-hry
+/usr/bin/wget -t 1 -nd -r -l 1 -q --ignore-case -A "*_zak*_web.pdf" -A "zoznam_web_sidiel.pdf" https://www.financnasprava.sk/sk/infoservis/priklady-hazardne-hry
 
 if [ $? -gt 0 ];then
 
