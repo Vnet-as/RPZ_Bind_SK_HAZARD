@@ -10,8 +10,9 @@ FILE_PROD="rpz.vnet.sk.conf"
 REDIRECT_DST="rpz.vnet.sk."
 
 #stiahnutie dokumentu
+LINK=`curl 'https://www.financnasprava.sk/sk/infoservis/priklady-hazardne-hry' -so -  | grep -iP '>Zoznam zakázaných webových sídiel</a>' | sed -n 's/.*href="\([^"]*\).*$/\1/p'`
 
-/usr/bin/wget -t 1 -nd -r -l 1 -q --ignore-case -A "*_zak*_web.pdf" -A "zoznam_web_sidiel.pdf" https://www.financnasprava.sk/sk/infoservis/priklady-hazardne-hry
+/usr/bin/wget -t 1 -nd -r -l 1 --ignore-case -A pdf -q https://www.financnasprava.sk$LINK
 
 if [ $? -gt 0 ];then
 
