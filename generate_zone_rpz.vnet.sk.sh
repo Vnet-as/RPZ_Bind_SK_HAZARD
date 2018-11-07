@@ -57,6 +57,8 @@ rpz.vnet.sk.	IN	NS		ns.vnet.eu.
 rpz.vnet.sk.	IN	A		46.229.237.56
 rpz.vnet.sk.	IN	AAAA		::1
 rpz.vnet.sk.	IN	TXT		"sha256 ${SOURCESUM}"
+
+stb-logging.global.flexitv.sk   IN      CNAME   iptvlog.vnet.sk.
 _EOF_
 )
 
