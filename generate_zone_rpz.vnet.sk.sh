@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Created by Peter Vilhan vilhan at vnet.eu
-# Dependencies: bash pdftohtml awk sed bind9utils wget sha256sum
+# Dependencies: bash pdftohtml awk sed bind9utils wget sha256sum tidy
 # Licencia: GNU GPLv3
 
 # Nastav handlery pre cleanup pri error/exit
