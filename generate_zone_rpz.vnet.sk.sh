@@ -24,13 +24,12 @@ REDIRECT_DST="rpz.vnet.sk."
 SN=$(date +"%Y%m%d%H")
 
 # Stiahnutie dokumentu
-LINK=$(curl 'https://www.financnasprava.sk/sk/infoservis/priklady-hazardne-hry' -so -  | grep -iP 'Zoznam zakázaných webových sídiel</a>' | sed -n 's/.*href="\([^"]*\).*$/\1/p')
-
-if ! /usr/bin/wget -t 1 -nd -r -l 1 --ignore-case -A pdf -O "${PDF_NAME}" -q "https://www.financnasprava.sk${LINK}"; then
-	echo "Nepodarilo sa stiahnut dokument s bloknutymi webmi!" >&2
+LINK=$(curl -k -so - https://www.urhh.sk/web/guest/zoznam-zakazanych-sidel | tidy -i -w 460 -ashtml -utf8 2> /dev/null | grep 'Zoznam zakázaných webových sídiel k' | cut -d'"' -f2)
+if ! /usr/bin/wget -t 1 -nd -r -l 1 --ignore-case -A pdf -O "${PDF_NAME}" -q "${LINK}"; then
+	echo "Nepodarilo sa stiahnut dokument s bloknutymi webmi z linku ${LINK}!" >&2
 	exit 1
 elif [ `file -i ${PDF_NAME} | grep -c 'application/pdf'` -eq 0 ];then
-	echo "Stiahol sa dokument ineho typu nez PDF" >&2
+	echo "Stiahol sa dokument ineho typu nez PDF:"`file -i ${PDF_NAME}` >&2
 	exit 1
 fi
 
