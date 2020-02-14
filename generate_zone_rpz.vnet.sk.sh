@@ -24,7 +24,7 @@ REDIRECT_DST="rpz.vnet.sk."
 SN=$(date +"%Y%m%d%H")
 
 # Stiahnutie dokumentu
-LINK=$(curl -k -so - https://www.urhh.sk/web/guest/zoznam-zakazanych-sidel | tidy -i -w 460 -ashtml -utf8 2> /dev/null | grep 'Zoznam zakázaných webových sídiel k' -m1 -A 3 | tail -1 | cut -d'"' -f2)
+LINK=$(curl -k -so - https://www.urhh.sk/web/guest/zoznam-zakazanych-sidel | sed  s/"> <"/">\n<"/g | grep 'Zoznam zakázaných webových sídiel k.*pdf' -m1 | cut -d'"' -f2)
 if ! /usr/bin/wget -t 1 -nd -r -l 1 --ignore-case -A pdf -O "${PDF_NAME}" -q "${LINK}"; then
 	echo "Nepodarilo sa stiahnut dokument s bloknutymi webmi z linku ${LINK}!" >&2
 	exit 1
