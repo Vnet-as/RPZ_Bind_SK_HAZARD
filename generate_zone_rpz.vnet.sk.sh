@@ -25,7 +25,7 @@ SN=$(date +"%Y%m%d%H")
 
 # Stiahnutie dokumentu
 LINK=$(curl -N -k -so - https://www.urhh.sk/web/guest/zoznam-zakazanych-sidel | sed  s/"> <"/">\n<"/g | grep 'Zoznam zakázaných webových sídiel k.*pdf' -m1 | cut -d'"' -f2)
-if ! /usr/bin/wget -t 1 -nd -r -l 1 --ignore-case -A pdf -O "${PDF_NAME}" -q "${LINK}"; then
+if ! /usr/bin/wget --no-check-certificate -t 1 -nd -r -l 1 --ignore-case -A pdf -O "${PDF_NAME}" -q "${LINK}"; then
 	echo "Nepodarilo sa stiahnut dokument s bloknutymi webmi z linku ${LINK}!" >&2
 	exit 1
 elif [ `file -i ${PDF_NAME} | grep -c 'application/pdf'` -eq 0 ];then
@@ -61,6 +61,8 @@ rpz.vnet.sk.	IN	AAAA		::1
 rpz.vnet.sk.	IN	TXT		"sha256 ${SOURCESUM}"
 
 stb-logging.global.flexitv.sk   IN      CNAME   iptvlog.vnet.sk.
+domain.name	IN	CNAME	rpz.vnet.sk.
+*.domain.name	IN	CNAME	rpz.vnet.sk.
 _EOF_
 )
 
