@@ -61,6 +61,7 @@ rpz.vnet.sk.	IN	AAAA		::1
 rpz.vnet.sk.	IN	TXT		"sha256 ${SOURCESUM}"
 
 stb-logging.global.flexitv.sk   IN      CNAME   iptvlog.vnet.sk.
+admin.flexitv.sk	IN	A	10.17.0.100
 domain.name	IN	CNAME	rpz.vnet.sk.
 *.domain.name	IN	CNAME	rpz.vnet.sk.
 _EOF_
