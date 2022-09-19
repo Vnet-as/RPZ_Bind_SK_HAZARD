@@ -10,10 +10,8 @@ V skripte si treba upravit sablonu zony podla svojich potrieb aby zony smerovali
 
 Zavislosti:
 
-* pdftohtml
-* awk
+* csvkit
 * sed
 * bind9utils
 * sha256sum
-* tidy vo verzii min 5.2 napr z http://binaries.html-tidy.org/
-
+* wget
