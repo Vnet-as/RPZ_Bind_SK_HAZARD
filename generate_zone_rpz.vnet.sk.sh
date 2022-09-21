@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Created by Peter Vilhan vilhan at vnet.eu
-# Dependencies: bash pdftohtml awk sed bind9utils wget sha256sum tidy
+# Dependencies: bash csvkit sed bind9utils wget sha256sum
 # Licencia: GNU GPLv3
 
 # Nastav handlery pre cleanup pri error/exit
@@ -62,17 +62,6 @@ stb-logging.global.flexitv.sk   IN      CNAME   iptvlog.vnet.sk.
 admin.flexitv.sk	IN	A	10.17.0.100
 domain.name	IN	CNAME	rpz.vnet.sk.
 *.domain.name	IN	CNAME	rpz.vnet.sk.
-_validation-contactemail.adminhosting.dcdigitalis.myazure.vnet.sk.       IN      TXT     "sysadmin@vnet.sk"
-_validation-contactemail.adminmanagement.dcdigitalis.myazure.vnet.sk.    IN      TXT     "sysadmin@vnet.sk"
-_validation-contactemail.adminportal.dcdigitalis.myazure.vnet.sk.        IN      TXT     "sysadmin@vnet.sk"
-_validation-contactemail.adminvault.dcdigitalis.myazure.vnet.sk.         IN      TXT     "sysadmin@vnet.sk"
-_validation-contactemail.blob.dcdigitalis.myazure.vnet.sk.       IN      TXT     "sysadmin@vnet.sk"
-_validation-contactemail.hosting.dcdigitalis.myazure.vnet.sk.    IN      TXT     "sysadmin@vnet.sk"
-_validation-contactemail.management.dcdigitalis.myazure.vnet.sk.         IN      TXT     "sysadmin@vnet.sk"
-_validation-contactemail.portal.dcdigitalis.myazure.vnet.sk.     IN      TXT     "sysadmin@vnet.sk"
-_validation-contactemail.queue.dcdigitalis.myazure.vnet.sk.      IN      TXT     "sysadmin@vnet.sk"
-_validation-contactemail.table.dcdigitalis.myazure.vnet.sk.      IN      TXT     "sysadmin@vnet.sk"
-_validation-contactemail.vault.dcdigitalis.myazure.vnet.sk.      IN      TXT     "sysadmin@vnet.sk"
 _EOF_
 )
 
