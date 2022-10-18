@@ -40,7 +40,7 @@ SOURCESUM=$(/usr/bin/sha256sum ${CSV_NAME})
 if [ -e "${CSV_NAME}" ]; then
 	IFS=$'\n'
 
-	domeny=($(csvcut -S -x -H -q \" -d\; -c 2 ${CSV_NAME} | tail -n +4 | sed s/"http[s]:\/\/"//g |sed s/"\/.*"//g))
+	domeny=($(csvcut -S -x -H -q \" -d\; -c 2 ${CSV_NAME} | tail -n +4 | sed s/"http[s]*:\/\/"//g  | grep -v '/'))
 
 	ZONE_HEADER=$(cat <<_EOF_
 \$TTL	3600
