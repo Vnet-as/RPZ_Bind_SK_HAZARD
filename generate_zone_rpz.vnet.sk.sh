@@ -24,12 +24,15 @@ REDIRECT_DST="rpz.vnet.sk."
 SN=$(date +"%Y%m%d%H")
 
 # Stiahnutie dokumentu
-LINK=$(curl -N -k -so - https://www.urhh.sk/web/guest/zoznam-zakazanych-sidel | sed  s/"> <"/">\n<"/g | grep 'Zoznam zakázaných webových sídiel_.*csv' -m1 | cut -d'"' -f2)
+#LINK=$(curl -N -k -so - https://www.urhh.sk/web/guest/zoznam-zakazanych-sidel | sed  s/"> <"/">\n<"/g | grep 'Zoznam zakázaných webových sídiel_.*csv' -m1 | cut -d'"' -f2)
+LINK=$(curl -N -k -so - https://www.urhh.sk/web/guest/zoznam-zakazanych-sidel | grep "<a href="  |sed "s/<a href/\\n<a href/g" | grep 'Zoznam%20zak%C3%A1zan%C3%BDch%20webov%C3%BDch%20s%C3%ADdiel' | grep '\.csv' | awk 'NR==1 {print; exit}' | cut -d'"' -f2)
+echo ${LINK}
+
 if ! /usr/bin/wget --no-check-certificate -t 1 -nd -r -l 1 --ignore-case -A pdf -O "${CSV_NAME}" -q "${LINK}"; then
 	echo "Nepodarilo sa stiahnut dokument s bloknutymi webmi z linku ${LINK}!" >&2
 	exit 1
 elif [ `file -i ${CSV_NAME} | grep -c 'text/plain'` -eq 0 ];then
-	echo "Stiahol sa dokument ineho typu nez PDF:"`file -i ${CSV_NAME}` >&2
+	echo "Stiahol sa dokument ineho typu nez text/plain:"`file -i ${CSV_NAME}` >&2
 	exit 1
 fi
 
@@ -59,7 +62,7 @@ rpz.vnet.sk.	IN	AAAA		::1
 rpz.vnet.sk.	IN	TXT		"sha256 ${SOURCESUM}"
 
 stb-logging.global.flexitv.sk   IN      CNAME   iptvlog.vnet.sk.
-admin.flexitv.sk	IN	A	10.17.0.100
+admin.flexitv.sk	IN	A	10.17.14.200
 domain.name	IN	CNAME	rpz.vnet.sk.
 *.domain.name	IN	CNAME	rpz.vnet.sk.
 _EOF_
