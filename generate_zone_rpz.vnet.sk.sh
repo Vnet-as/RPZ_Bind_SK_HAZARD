@@ -25,7 +25,7 @@ SN=$(date +"%Y%m%d%H")
 
 # Stiahnutie dokumentu
 #LINK=$(curl -N -k -so - https://www.urhh.sk/web/guest/zoznam-zakazanych-sidel | sed  s/"> <"/">\n<"/g | grep 'Zoznam zakázaných webových sídiel_.*csv' -m1 | cut -d'"' -f2)
-LINK=$(curl -N -k -so - https://www.urhh.sk/web/guest/zoznam-zakazanych-sidel | grep "<a href="  |sed "s/<a href/\\n<a href/g" | grep 'Zoznam%20zak%C3%A1zan%C3%BDch%20webov%C3%BDch%20s%C3%ADdiel' | grep '\.csv' | awk 'NR==1 {print; exit}' | cut -d'"' -f2)
+LINK="https://www.urhh.sk"$(curl -N -k -so - https://www.urhh.sk/web/guest/zoznam-zakazanych-sidel | grep "<a href="  |sed "s/<a href/\\n<a href/g" | grep 'Zoznam+zak%C3%A1zan%C3%BDch+webov%C3%BDch+s%C3%ADdiel' | grep '\.csv' | awk 'NR==1 {print; exit}' | cut -d'"' -f2)
 #echo ${LINK}
 
 if ! /usr/bin/wget --no-check-certificate -t 1 -nd -r -l 1 --ignore-case -A pdf -O "${CSV_NAME}" -q "${LINK}"; then
@@ -43,7 +43,7 @@ SOURCESUM=$(/usr/bin/sha256sum ${CSV_NAME})
 if [ -e "${CSV_NAME}" ]; then
 	IFS=$'\n'
 
-	domeny=($(csvcut -S -x -H -q \" -d\; -c 2 ${CSV_NAME} | tail -n +4 | sed s/"http[s]*:\/\/"//g  | grep -v '/'))
+	domeny=($(csvcut -S -x -q \" -d\, -K 1 -c 2 ${CSV_NAME} | tail -n +4 | sed s/"http[s]*:\/\/"//g  | grep -v '/'))
 
 	ZONE_HEADER=$(cat <<_EOF_
 \$TTL	3600
@@ -56,7 +56,7 @@ if [ -e "${CSV_NAME}" ]; then
 rpz.vnet.sk.	IN	NS		ns.vnet.sk.
 rpz.vnet.sk.	IN	NS		ns.vnet.cz.
 rpz.vnet.sk.	IN	NS		ns.vnet.eu.
-rpz.vnet.sk.	IN	A		46.229.237.56
+rpz.vnet.sk.	IN	A		217.73.28.12
 rpz2.vnet.sk.	IN	CNAME		rpz.vnet.sk.
 rpz.vnet.sk.	IN	AAAA		::1
 rpz.vnet.sk.	IN	TXT		"sha256 ${SOURCESUM}"
@@ -80,7 +80,7 @@ _EOF_
 	FULL_ZONE="${ZONE_HEADER}\n\n${RECORDS}"
 
 	# Skontrolujeme ci je zonefile syntakticky korektny
-	if ! /usr/sbin/named-checkzone -q rpz.vnet.sk <(echo -e "${FULL_ZONE}"); then
+	if ! /usr/bin/named-checkzone -q rpz.vnet.sk <(echo -e "${FULL_ZONE}"); then
 		echo "Zonovy subor nepresiel verifikaciou!" >&2
 		exit 1
 	fi
