@@ -25,7 +25,8 @@ SN=$(date +"%Y%m%d%H")
 
 # Stiahnutie dokumentu
 #LINK=$(curl -N -k -so - https://www.urhh.sk/web/guest/zoznam-zakazanych-sidel | sed  s/"> <"/">\n<"/g | grep 'Zoznam zakázaných webových sídiel_.*csv' -m1 | cut -d'"' -f2)
-LINK="https://www.urhh.sk"$(curl -N -k -so - https://www.urhh.sk/web/guest/zoznam-zakazanych-sidel | grep "<a href="  |sed "s/<a href/\\n<a href/g" | grep 'Zoznam+zak%C3%A1zan%C3%BDch+webov%C3%BDch+s%C3%ADdiel' | grep '\.csv' | awk 'NR==1 {print; exit}' | cut -d'"' -f2)
+#LINK="https://www.urhh.sk"$(curl -N -k -so - https://www.urhh.sk/web/guest/zoznam-zakazanych-sidel | grep "<a href="  |sed "s/<a href/\\n<a href/g" | grep 'Zoznam+zak%C3%A1zan%C3%BDch+webov%C3%BDch+s%C3%ADdiel' | grep '\.csv' | awk 'NR==1 {print; exit}' | cut -d'"' -f2)
+LINK=$(curl -N -k -so - https://www.urhh.sk/urad/dozor-a-kontrola/zakazane-ponuky/zoznam-zakazanych-ponuk/ | grep -i "zoznam_zakazanych_ponuk_.*\.csv" | grep "<a href=" |  awk 'NR==1 {print; exit}' | cut -d'"' -f2)
 #echo ${LINK}
 
 if ! /usr/bin/wget --no-check-certificate -t 1 -nd -r -l 1 --ignore-case -A pdf -O "${CSV_NAME}" -q "${LINK}"; then
@@ -63,8 +64,6 @@ rpz.vnet.sk.	IN	TXT		"sha256 ${SOURCESUM}"
 
 stb-logging.global.flexitv.sk   IN      CNAME   iptvlog.vnet.sk.
 admin.flexitv.sk	IN	A	10.17.14.200
-domain.name	IN	CNAME	rpz.vnet.sk.
-*.domain.name	IN	CNAME	rpz.vnet.sk.
 _EOF_
 )
 
